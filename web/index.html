@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 7 Dashboard - Embedding & Vector Store (E-Commerce RAG)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Background Glow Effects -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <div class="app-container">
+        <!-- Header / Navbar -->
+        <header class="app-header">
+            <div class="logo-group">
+                <div class="logo-icon">⚡</div>
+                <div>
+                    <h1 class="logo-title">RAG VectorStore Analytics</h1>
+                    <p class="logo-subtitle">Lab 7: Data Foundations — E-Commerce Policy Corpus (K4-L3B)</p>
+                </div>
+            </div>
+            <div class="header-user-info">
+                <span class="user-badge"><span class="pulse-dot"></span> Student: Phan Hoàng Vũ</span>
+                <span class="group-badge">Team: Nhóm Soul</span>
+            </div>
+        </header>
+
+        <!-- KPI Hero Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card glow-border-purple">
+                <div class="kpi-header">
+                    <span class="kpi-label">TOTAL DOCUMENTS</span>
+                    <span class="kpi-icon">📁</span>
+                </div>
+                <div class="kpi-value" id="kpi-docs">5</div>
+                <div class="kpi-desc">Shopee, Tiki, Sendo, TikTok, Lazada</div>
+            </div>
+
+            <div class="kpi-card glow-border-green">
+                <div class="kpi-header">
+                    <span class="kpi-label">UNIT TESTS STATUS</span>
+                    <span class="kpi-icon">✅</span>
+                </div>
+                <div class="kpi-value green-text">42 / 42</div>
+                <div class="kpi-desc">100% Passed (pytest test_solution.py)</div>
+            </div>
+
+            <div class="kpi-card glow-border-blue">
+                <div class="kpi-header">
+                    <span class="kpi-label">CUSTOM CHUNKER</span>
+                    <span class="kpi-icon">🧩</span>
+                </div>
+                <div class="kpi-value blue-text">HeadingChunker</div>
+                <div class="kpi-desc">Context-preserving Markdown Heading splitter</div>
+            </div>
+
+            <div class="kpi-card glow-border-amber">
+                <div class="kpi-header">
+                    <span class="kpi-label">METADATA SCHEMA</span>
+                    <span class="kpi-icon">🏷️</span>
+                </div>
+                <div class="kpi-value amber-text">8 Fields</div>
+                <div class="kpi-desc">audience, doc_id, category, version...</div>
+            </div>
+        </section>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="tab-sandbox">
+                <span class="tab-icon">🔍</span> Interactive RAG Sandbox
+            </button>
+            <button class="tab-btn" data-tab="tab-benchmark">
+                <span class="tab-icon">📊</span> Benchmark Analytics
+            </button>
+            <button class="tab-btn" data-tab="tab-documents">
+                <span class="tab-icon">📚</span> Data Explorer (5 Files)
+            </button>
+            <button class="tab-btn" data-tab="tab-tests">
+                <span class="tab-icon">🧪</span> Test Suite Breakdown
+            </button>
+        </nav>
+
+        <!-- Main Content Views -->
+        <main class="content-area">
+
+            <!-- TAB 1: RAG Sandbox -->
+            <section id="tab-sandbox" class="tab-content active">
+                <div class="grid-2col">
+                    <!-- Controls Panel -->
+                    <div class="panel glass-card">
+                        <h2 class="panel-title"><span class="icon">🎛️</span> Retrieval Controls</h2>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Câu hỏi mẫu (Pre-set Benchmark Queries):</label>
+                            <select id="preset-query-select" class="form-select">
+                                <option value="">-- Chọn câu hỏi mẫu để test nhanh --</option>
+                                <option value="Người mua trên Shopee có bao nhiêu ngày để gửi yêu cầu trả hàng?">Q1: Shopee người mua có bao nhiêu ngày trả hàng?</option>
+                                <option value="Người bán trên Shopee phải phản hồi yêu cầu trả hàng trong bao lâu?">Q2: Shopee người bán phản hồi trả hàng trong bao lâu?</option>
+                                <option value="Sendo hoàn tiền cho người mua qua kênh nào và mất bao lâu?">Q3: Sendo hoàn tiền qua ví nào và mất bao lâu?</option>
+                                <option value="Tiki hỗ trợ đổi trả điện thoại bị lỗi trong bao nhiêu ngày?">Q4: Tiki đổi trả điện thoại bị lỗi bao nhiêu ngày?</option>
+                                <option value="Người bán trên Shopee có phải chịu phí vận chuyển hoàn trả khi lỗi do đơn vị vận chuyển không?">Q5: Phí vận chuyển do lỗi nhà vận chuyển ai chịu?</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nhập câu hỏi (Query Text):</label>
+                            <textarea id="search-query-input" class="form-textarea" rows="3" placeholder="Nhập câu hỏi tra cứu chính sách đổi trả..."></textarea>
+                        </div>
+
+                        <div class="grid-2col-nested">
+                            <div class="form-group">
+                                <label class="form-label">Chiến lược Chunking:</label>
+                                <select id="strategy-select" class="form-select">
+                                    <option value="HeadingChunker" selected>HeadingChunker (Vũ Custom)</option>
+                                    <option value="RecursiveChunker">RecursiveChunker (500 chars)</option>
+                                    <option value="SentenceChunker">SentenceChunker (3 sents)</option>
+                                    <option value="FixedSizeChunker">FixedSizeChunker (500 chars)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Metadata Audience Filter:</label>
+                                <select id="audience-select" class="form-select">
+                                    <option value="all">Tất cả (No Filter)</option>
+                                    <option value="buyer">Người mua (audience: buyer)</option>
+                                    <option value="seller">Người bán (audience: seller)</option>
+                                    <option value="both">Cả hai (audience: both)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="slider-header">
+                                <label class="form-label">Top-K Retrieved Chunks:</label>
+                                <span id="top-k-val" class="badge-value">3</span>
+                            </div>
+                            <input type="range" id="top-k-slider" class="form-slider" min="1" max="10" value="3">
+                        </div>
+
+                        <button id="btn-run-search" class="btn-primary">
+                            <span class="btn-icon">🚀</span> Run Vector Search & Agent RAG
+                        </button>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div class="panel glass-card">
+                        <h2 class="panel-title"><span class="icon">🤖</span> Agent Response & Retrieved Chunks</h2>
+                        
+                        <div id="search-results-container">
+                            <div class="empty-state">
+                                <div class="empty-icon">💡</div>
+                                <p>Nhấp <strong>"Run Vector Search & Agent RAG"</strong> để xem kết quả truy xuất thực tế.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: Benchmark Analytics -->
+            <section id="tab-benchmark" class="tab-content">
+                <div class="panel glass-card">
+                    <div class="panel-header-flex">
+                        <div>
+                            <h2 class="panel-title"><span class="icon">📊</span> Comparative Benchmark Results</h2>
+                            <p class="panel-subtitle">So sánh hiệu năng giữa các thuật toán Chunking trên tập dữ liệu E-Commerce</p>
+                        </div>
+                        <button id="btn-refresh-bench" class="btn-secondary">🔄 Refresh Data</button>
+                    </div>
+
+                    <div class="benchmark-grid">
+                        <div class="bench-chart-container">
+                            <canvas id="benchmark-chart"></canvas>
+                        </div>
+                        <div id="bench-cards-container" class="bench-cards-list">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: Data Explorer -->
+            <section id="tab-documents" class="tab-content">
+                <div class="panel glass-card">
+                    <h2 class="panel-title"><span class="icon">📚</span> Data Inventory Explorer</h2>
+                    <p class="panel-subtitle">Tập tài liệu chính sách E-Commerce công khai (Shopee, Sendo, Tiki, TikTok Shop, Lazada)</p>
+                    
+                    <div id="documents-grid" class="documents-grid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: Test Suite -->
+            <section id="tab-tests" class="tab-content">
+                <div class="panel glass-card">
+                    <div class="panel-header-flex">
+                        <div>
+                            <h2 class="panel-title"><span class="icon">🧪</span> Pytest Test Suite Results</h2>
+                            <p class="panel-subtitle">Kiểm thử tự động module `src/` (100% Pass Rate)</p>
+                        </div>
+                        <span class="status-pill status-pass">42 / 42 PASSED</span>
+                    </div>
+
+                    <div class="test-category-list">
+                        <div class="test-cat-card">
+                            <div class="test-cat-title">⚡ FixedSizeChunker (7 tests)</div>
+                            <div class="test-tag-group">
+                                <span class="test-tag pass">test_chunks_respect_size</span>
+                                <span class="test-tag pass">test_correct_number_of_chunks_no_overlap</span>
+                                <span class="test-tag pass">test_empty_text_returns_empty_list</span>
+                                <span class="test-tag pass">test_no_overlap_no_shared_content</span>
+                                <span class="test-tag pass">test_overlap_creates_shared_content</span>
+                                <span class="test-tag pass">test_returns_list</span>
+                                <span class="test-tag pass">test_single_chunk_if_text_shorter</span>
+                            </div>
+                        </div>
+
+                        <div class="test-cat-card">
+                            <div class="test-cat-title">✂️ SentenceChunker (4 tests)</div>
+                            <div class="test-tag-group">
+                                <span class="test-tag pass">test_chunks_are_strings</span>
+                                <span class="test-tag pass">test_respects_max_sentences</span>
+                                <span class="test-tag pass">test_returns_list</span>
+                                <span class="test-tag pass">test_single_sentence_max_gives_many_chunks</span>
+                            </div>
+                        </div>
+
+                        <div class="test-cat-card">
+                            <div class="test-cat-title">🔄 RecursiveChunker (4 tests)</div>
+                            <div class="test-tag-group">
+                                <span class="test-tag pass">test_chunks_within_size_when_possible</span>
+                                <span class="test-tag pass">test_empty_separators_falls_back_gracefully</span>
+                                <span class="test-tag pass">test_handles_double_newline_separator</span>
+                                <span class="test-tag pass">test_returns_list</span>
+                            </div>
+                        </div>
+
+                        <div class="test-cat-card">
+                            <div class="test-cat-title">📐 Cosine Similarity (4 tests)</div>
+                            <div class="test-tag-group">
+                                <span class="test-tag pass">test_identical_vectors_return_1</span>
+                                <span class="test-tag pass">test_opposite_vectors_return_minus_1</span>
+                                <span class="test-tag pass">test_orthogonal_vectors_return_0</span>
+                                <span class="test-tag pass">test_zero_vector_returns_0</span>
+                            </div>
+                        </div>
+
+                        <div class="test-cat-card">
+                            <div class="test-cat-title">🗄️ EmbeddingStore & Filtering (12 tests)</div>
+                            <div class="test-tag-group">
+                                <span class="test-tag pass">test_add_and_search</span>
+                                <span class="test-tag pass">test_search_with_filter_exact_match</span>
+                                <span class="test-tag pass">test_search_with_filter_no_match</span>
+                                <span class="test-tag pass">test_delete_document</span>
+                                <span class="test-tag pass">test_get_collection_size</span>
+                                <span class="test-tag pass">test_delete_nonexistent_returns_false</span>
+                            </div>
+                        </div>
+
+                        <div class="test-cat-card">
+                            <div class="test-cat-title">🤖 KnowledgeBaseAgent & RAG Pipeline (7 tests)</div>
+                            <div class="test-tag-group">
+                                <span class="test-tag pass">test_agent_initialization</span>
+                                <span class="test-tag pass">test_answer_generates_response</span>
+                                <span class="test-tag pass">test_answer_uses_retrieved_context</span>
+                                <span class="test-tag pass">test_answer_with_filter</span>
+                                <span class="test-tag pass">test_full_rag_pipeline</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Document Modal -->
+    <div id="doc-modal" class="modal-overlay">
+        <div class="modal-box glass-card">
+            <div class="modal-header">
+                <h3 id="modal-doc-title" class="modal-title">Doc Title</h3>
+                <button id="modal-close-btn" class="modal-close">&times;</button>
+            </div>
+            <div id="modal-doc-metadata" class="modal-meta-bar"></div>
+            <pre id="modal-doc-content" class="modal-code-body"></pre>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

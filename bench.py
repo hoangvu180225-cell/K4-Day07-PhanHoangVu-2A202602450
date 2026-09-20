@@ -76,7 +76,7 @@ def load_documents_from_markdown():
     return documents
 
 
-def run_benchmark(chunker_name="HeadingChunker", chunker=None):
+def run_benchmark(chunker_name="HeadingChunker", chunker=None, log_lines=None):
     if chunker is None:
         chunker = HeadingChunker(chunk_size=500)
 
@@ -93,15 +93,17 @@ def run_benchmark(chunker_name="HeadingChunker", chunker=None):
     store = EmbeddingStore(embedding_fn=MockEmbedder())
     store.add_documents(chunked_docs)
 
-    print(f"\n========================================================")
-    print(f"  BENCHMARK EVALUATION -- Chunker: {chunker_name}")
-    print(f"  Total Indexed Chunks: {store.get_collection_size()}")
-    print(f"========================================================\n")
+    header1 = f"\n========================================================\n  BENCHMARK EVALUATION -- Chunker: {chunker_name}\n  Total Indexed Chunks: {store.get_collection_size()}\n========================================================\n"
+    print(header1)
+    if log_lines is not None:
+        log_lines.append(header1)
 
     hits = 0
     for q in QUERIES:
-        print(f"[Query {q['id']}] {q['query']}")
-        print(f"  Gold Answer: {q['gold']}")
+        q_header = f"[Query {q['id']}] {q['query']}\n  Gold Answer: {q['gold']}"
+        print(q_header)
+        if log_lines is not None:
+            log_lines.append(q_header)
         
         filter_dict = q["filter"]
         if filter_dict:
@@ -115,26 +117,60 @@ def run_benchmark(chunker_name="HeadingChunker", chunker=None):
             score = top_res["score"]
             meta = top_res["metadata"]
             doc_id = meta.get("doc_id", top_res["id"])
-            print(f"  Top Match (Score: {score:.4f}): Doc '{doc_id}'")
             chunk_snippet = content.replace("\n", " ")[:150]
-            print(f"  Content Snippet: \"{chunk_snippet}...\"\n")
+            res_str = f"  Top Match (Score: {score:.4f}): Doc '{doc_id}'\n  Content Snippet: \"{chunk_snippet}...\"\n"
+            print(res_str)
+            if log_lines is not None:
+                log_lines.append(res_str)
             if doc_id == q["doc_id"]:
                 hits += 1
         else:
-            print("  NO RESULTS FOUND!\n")
+            no_res = "  NO RESULTS FOUND!\n"
+            print(no_res)
+            if log_lines is not None:
+                log_lines.append(no_res)
 
-    print(f"--------------------------------------------------------")
-    print(f"  Accuracy (Doc Match): {hits}/{len(QUERIES)} ({hits/len(QUERIES)*100:.1f}%)")
-    print(f"--------------------------------------------------------\n")
+    summary_str = f"--------------------------------------------------------\n  Accuracy (Doc Match): {hits}/{len(QUERIES)} ({hits/len(QUERIES)*100:.1f}%)\n--------------------------------------------------------\n"
+    print(summary_str)
+    if log_lines is not None:
+        log_lines.append(summary_str)
+
+    return {
+        "chunker_name": chunker_name,
+        "total_chunks": store.get_collection_size(),
+        "hits": hits,
+        "total_queries": len(QUERIES),
+        "accuracy": hits / len(QUERIES),
+    }
 
 
 if __name__ == "__main__":
+    import json
     import sys
     sys.stdout.reconfigure(encoding='utf-8')
 
+    results = []
+    log_lines = []
     print("Running Benchmark for HeadingChunker (Vu's Chunker)...")
-    run_benchmark("HeadingChunker (500)", HeadingChunker(chunk_size=500))
+    res1 = run_benchmark("HeadingChunker (500)", HeadingChunker(chunk_size=500), log_lines)
+    results.append(res1)
 
     print("Comparing with standard chunkers:")
-    run_benchmark("RecursiveChunker (500)", RecursiveChunker(chunk_size=500))
-    run_benchmark("SentenceChunker (3 sents)", SentenceChunker(max_sentences_per_chunk=3))
+    res2 = run_benchmark("RecursiveChunker (500)", RecursiveChunker(chunk_size=500), log_lines)
+    results.append(res2)
+
+    res3 = run_benchmark("SentenceChunker (3 sents)", SentenceChunker(max_sentences_per_chunk=3), log_lines)
+    results.append(res3)
+
+    output_path = Path("report/benchmark_results.json")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+    
+    txt_content = "\n".join(log_lines)
+    txt_file = Path("ket_qua_benchmark.txt")
+    txt_file.write_text(txt_content, encoding="utf-8")
+    Path("report/ket_qua_benchmark.txt").write_text(txt_content, encoding="utf-8")
+
+    print(f"--> Saved benchmark JSON to: {output_path}")
+    print(f"--> Saved benchmark TXT to: {txt_file} & report/ket_qua_benchmark.txt")
+

@@ -1,0 +1,104 @@
+
+========================================================
+  BENCHMARK EVALUATION -- Chunker: HeadingChunker (500)
+  Total Indexed Chunks: 91
+========================================================
+
+[Query 1] Người mua trên Shopee có bao nhiêu ngày để gửi yêu cầu trả hàng?
+  Gold Answer: 15 ngày kể từ khi đơn hàng được cập nhật giao hàng thành công
+  Top Match (Score: 0.2943): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "để giải quyết.  11.2. Nếu một bên khiếu nại bên kia tới các Cơ quan chức năng, bên khiếu nại cần thông báo kịp thời với Shopee về vụ việc tranh chấp n..."
+
+[Query 2] Người bán trên Shopee phải phản hồi yêu cầu trả hàng trong bao lâu?
+  Gold Answer: 02 ngày lịch kể từ ngày nhận thông báo
+  Top Match (Score: 0.2495): Doc 'tiktokshop-chinh-sach-tra-hang-seller'
+  Content Snippet: "ôi vẫn cung cấp cho khách hàng dịch vụ tự nguyện xử lý tranh chấp sau bán hàng để hỗ trợ giải quyết xung đột với người bán.  Thông tin thêm về dịch vụ..."
+
+[Query 3] Sendo hoàn tiền cho người mua qua kênh nào và mất bao lâu?
+  Gold Answer: ví Senpay, thời gian khoảng 3–7 ngày
+  Top Match (Score: 0.2730): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "hoặc chống lại bất kỳ việc khiếu nại, kiện tụng, hoặc các nghĩa vụ/trách nhiệm, thiệt hại, tuyên bố, hình phạt, tiền phạt, các chi phí và phí tổn (bao..."
+
+[Query 4] Tiki hỗ trợ đổi trả điện thoại bị lỗi trong bao nhiêu ngày?
+  Gold Answer: 7 ngày đầu — hình thức Đổi mới / Hoàn tiền
+  Top Match (Score: 0.3769): Doc 'tiktokshop-chinh-sach-tra-hang-seller'
+  Content Snippet: "ờ lấy hàng” hoặc “Đã vận chuyển” trong thời hạn nêu trong bài viết Thời gian hoàn tất đơn hàng của chúng tôi có thể bị nền tảng tự động hủy. Để biết t..."
+
+[Query 5] Người bán trên Shopee có phải chịu phí vận chuyển hoàn trả khi lỗi do đơn vị vận chuyển không?
+  Gold Answer: Không — người bán không chịu chi phí khi lỗi do đơn vị vận chuyển
+  Top Match (Score: 0.3184): Doc 'tiktokshop-chinh-sach-tra-hang-seller'
+  Content Snippet: "trả hàng do lỗi người bán, người bán chịu phí trả hàng. TikTok tự quyết định một cách toàn quyền và tuyệt đối bên nào có lỗi đối với yêu cầu hoàn tiền..."
+
+--------------------------------------------------------
+  Accuracy (Doc Match): 1/5 (20.0%)
+--------------------------------------------------------
+
+
+========================================================
+  BENCHMARK EVALUATION -- Chunker: RecursiveChunker (500)
+  Total Indexed Chunks: 127
+========================================================
+
+[Query 1] Người mua trên Shopee có bao nhiêu ngày để gửi yêu cầu trả hàng?
+  Gold Answer: 15 ngày kể từ khi đơn hàng được cập nhật giao hàng thành công
+  Top Match (Score: 0.3081): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "2.2. Thời Gian Shopee Đảm Bảo thực hiện bởi Shopee, theo yêu cầu của Người Dùng, để hỗ trợ Người Dùng trong việc giải quyết các xung đột, tranh chấp..."
+
+[Query 2] Người bán trên Shopee phải phản hồi yêu cầu trả hàng trong bao lâu?
+  Gold Answer: 02 ngày lịch kể từ ngày nhận thông báo
+  Top Match (Score: 0.3019): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "9.1.  Shopee sẽ chỉ hoàn tiền cho Người Mua thuộc một trong các trường hợp sau:  Người Bán xác nhận đã nhận được Sản Phẩm Hoàn Trả; hoặc  Người Mua ch..."
+
+[Query 3] Sendo hoàn tiền cho người mua qua kênh nào và mất bao lâu?
+  Gold Answer: ví Senpay, thời gian khoảng 3–7 ngày
+  Top Match (Score: 0.3230): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "Đơn hàng của Người Mua đủ điều kiện được trả hàng/hoàn tiền và Shopee quyết định cho Người Mua được hoàn tiền khi Người Mua đã gửi trả Sản Phẩm cho đơ..."
+
+[Query 4] Tiki hỗ trợ đổi trả điện thoại bị lỗi trong bao nhiêu ngày?
+  Gold Answer: 7 ngày đầu — hình thức Đổi mới / Hoàn tiền
+  Top Match (Score: 0.3260): Doc 'sendo-chinh-sach-doi-tra-buyer'
+  Content Snippet: "Tùy vào từng trường hợp mà Sendo sẽ đưa ra quyết định cuối cùng về việc sản phẩm đó có được đổi trả hay không và mức độ đổi trả như thế nào. Cuối cùng..."
+
+[Query 5] Người bán trên Shopee có phải chịu phí vận chuyển hoàn trả khi lỗi do đơn vị vận chuyển không?
+  Gold Answer: Không — người bán không chịu chi phí khi lỗi do đơn vị vận chuyển
+  Top Match (Score: 0.2893): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "Chính Sách Trả Hàng và Hoàn Tiền này áp dụng đối với Người Mua, Người Bán, các đơn vị cung cấp dịch vụ vận chuyển, nhân viên giao nhận (shipper) của c..."
+
+--------------------------------------------------------
+  Accuracy (Doc Match): 3/5 (60.0%)
+--------------------------------------------------------
+
+
+========================================================
+  BENCHMARK EVALUATION -- Chunker: SentenceChunker (3 sents)
+  Total Indexed Chunks: 115
+========================================================
+
+[Query 1] Người mua trên Shopee có bao nhiêu ngày để gửi yêu cầu trả hàng?
+  Gold Answer: 15 ngày kể từ khi đơn hàng được cập nhật giao hàng thành công
+  Top Match (Score: 0.3174): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "ĐIỀU KIỆN ÁP DỤNG  2.1. Theo các điều khoản và điều kiện được quy định trong Chính Sách Trả Hàng và Hoàn Tiền này và tạo thành một phần của Điều Khoản..."
+
+[Query 2] Người bán trên Shopee phải phản hồi yêu cầu trả hàng trong bao lâu?
+  Gold Answer: 02 ngày lịch kể từ ngày nhận thông báo
+  Top Match (Score: 0.3311): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "Trong trường hợp Người Mua không có lịch sử vi phạm các chính sách, tiêu chuẩn cộng đồng của Shopee thì Shopee, trong một số trường hợp, sẽ quyết định..."
+
+[Query 3] Sendo hoàn tiền cho người mua qua kênh nào và mất bao lâu?
+  Gold Answer: ví Senpay, thời gian khoảng 3–7 ngày
+  Top Match (Score: 0.3026): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "Tùy từng trường hợp, tiền hoàn trả sẽ được chuyển vào Ví ShopeePay, SPayLater, Thẻ nội địa Napas, Tài Khoản Ngân Hàng, Thẻ thẻ tín dụng/ ghi nợ của..."
+
+[Query 4] Tiki hỗ trợ đổi trả điện thoại bị lỗi trong bao nhiêu ngày?
+  Gold Answer: 7 ngày đầu — hình thức Đổi mới / Hoàn tiền
+  Top Match (Score: 0.3800): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "3.2. Người Mua có thể gửi yêu cầu trả hàng/hoàn tiền trong vòng 15 (mười lăm) ngày kể từ lúc đơn hàng được cập nhật giao hàng thành công. Riêng đối vớ..."
+
+[Query 5] Người bán trên Shopee có phải chịu phí vận chuyển hoàn trả khi lỗi do đơn vị vận chuyển không?
+  Gold Answer: Không — người bán không chịu chi phí khi lỗi do đơn vị vận chuyển
+  Top Match (Score: 0.2544): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "HOÀN TIỀN ĐỐI VỚI SẢN PHẨM HOÀN TRẢ   9.1. Shopee sẽ chỉ hoàn tiền cho Người Mua thuộc một trong các trường hợp sau:  Người Bán xác nhận đã nhận được ..."
+
+--------------------------------------------------------
+  Accuracy (Doc Match): 3/5 (60.0%)
+--------------------------------------------------------

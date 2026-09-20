@@ -1,0 +1,37 @@
+
+========================================================
+  BENCHMARK EVALUATION -- Chunker: HeadingChunker (500)
+  Total Indexed Chunks: 91
+========================================================
+
+[Query 1] Người mua trên Shopee có bao nhiêu ngày để gửi yêu cầu trả hàng?
+  Gold Answer: 15 ngày kể từ khi đơn hàng được cập nhật giao hàng thành công
+  Top Match (Score: 0.2943): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "để giải quyết.  11.2. Nếu một bên khiếu nại bên kia tới các Cơ quan chức năng, bên khiếu nại cần thông báo kịp thời với Shopee về vụ việc tranh chấp n..."
+
+[Query 2] Người bán trên Shopee phải phản hồi yêu cầu trả hàng trong bao lâu?
+  Gold Answer: 02 ngày lịch kể từ ngày nhận thông báo
+  Top Match (Score: 0.2495): Doc 'tiktokshop-chinh-sach-tra-hang-seller'
+  Content Snippet: "ôi vẫn cung cấp cho khách hàng dịch vụ tự nguyện xử lý tranh chấp sau bán hàng để hỗ trợ giải quyết xung đột với người bán.  Thông tin thêm về dịch vụ..."
+
+[Query 3] Sendo hoàn tiền cho người mua qua kênh nào và mất bao lâu?
+  Gold Answer: ví Senpay, thời gian khoảng 3–7 ngày
+  Top Match (Score: 0.2730): Doc 'shopee-chinh-sach-tra-hang-hoan-tien'
+  Content Snippet: "hoặc chống lại bất kỳ việc khiếu nại, kiện tụng, hoặc các nghĩa vụ/trách nhiệm, thiệt hại, tuyên bố, hình phạt, tiền phạt, các chi phí và phí tổn (bao..."
+
+[Query 4] Tiki hỗ trợ đổi trả điện thoại bị lỗi trong bao nhiêu ngày?
+  Gold Answer: 7 ngày đầu — hình thức Đổi mới / Hoàn tiền
+  Top Match (Score: 0.3769): Doc 'tiktokshop-chinh-sach-tra-hang-seller'
+  Content Snippet: "ờ lấy hàng” hoặc “Đã vận chuyển” trong thời hạn nêu trong bài viết Thời gian hoàn tất đơn hàng của chúng tôi có thể bị nền tảng tự động hủy. Để biết t..."
+
+[Query 5] Người bán trên Shopee có phải chịu phí vận chuyển hoàn trả khi lỗi do đơn vị vận chuyển không?
+  Gold Answer: Không — người bán không chịu chi phí khi lỗi do đơn vị vận chuyển
+  Top Match (Score: 0.3184): Doc 'tiktokshop-chinh-sach-tra-hang-seller'
+  Content Snippet: "trả hàng do lỗi người bán, người bán chịu phí trả hàng. TikTok tự quyết định một cách toàn quyền và tuyệt đối bên nào có lỗi đối với yêu cầu hoàn tiền..."
+
+--------------------------------------------------------
+  Accuracy (Doc Match): 1/5 (20.0%)
+--------------------------------------------------------
+
+
+
