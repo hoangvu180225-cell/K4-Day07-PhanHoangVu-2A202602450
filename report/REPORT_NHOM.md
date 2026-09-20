@@ -1,7 +1,7 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
-**Nhóm:** Nhóm Soul
-**Thành viên:** Nguyễn Công Duẩn · Phùng Quốc Việt · Vũ
+**Nhóm:** Nhóm SOUL
+**Thành viên:** Nguyễn Công Duẩn · Phùng Quốc Việt · Phan Hoàng Vũ
 **Ngày:** 20/09/2026
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
@@ -14,20 +14,20 @@
 
 ### Chủ đề (Domain) & Lý Do Chọn
 
-**Chủ đề:** Chính sách đổi trả, hoàn tiền và quy định xử lý khiếu nại trên sàn Thương mại điện tử (Shopee, TiktokShop).
+**Chủ đề:** Chính sách đổi trả, hoàn tiền và quy định xử lý khiếu nại trên sàn Thương mại điện tử (Shopee, TikTok Shop, Tiki, Sendo, Lazada).
 
 **Tại sao nhóm chọn chủ đề này?**
-> Nhóm chọn chủ đề này vì Shopee là sàn thương mại điện tử phổ biến nhất hiện nay với các quy định đổi trả/hoàn tiền được chuẩn hóa rất chặt chẽ. Đặc biệt, các chính sách này phân định ranh giới rõ ràng giữa quyền lợi của Người mua (buyer) và nghĩa vụ/chế tài của Người bán (seller), rất lý tưởng để kiểm chứng và đánh giá tính hiệu quả của cơ chế lọc siêu dữ liệu (`metadata_filter`).
+> Nhóm chọn chủ đề này vì Shopee và các sàn TMĐT phổ biến hiện nay có quy định đổi trả/hoàn tiền được chuẩn hóa rất chặt chẽ. Đặc biệt, các chính sách này phân định ranh giới rõ ràng giữa quyền lợi của Người mua (buyer) và nghĩa vụ/chế tài của Người bán (seller), rất lý tưởng để kiểm chứng và đánh giá tính hiệu quả của cơ chế lọc siêu dữ liệu (`metadata_filter`).
 
 ### Danh sách tài liệu (Data Inventory)
 
 | # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
 | --- | -------------- | ------------ | -------------------- | ---------- | ----------------- |
-| 1 | Chính sách trả hàng và hoàn tiền Shopee | <https://help.shopee.vn/portal/4/article/77251> | 2026-09-20 / 2026-03-11 | ~26300 | audience: both, category: return-refund, language: vi |
-| 2 | Chính sách đổi trả tại Tiki trước ngày 15-04-2024 | <https://hotro.tiki.vn/knowledge-base/post/805> | 2026-09-20 / 2024-04-15 | ~2950 | audience: buyer, category: return-refund, language: vi |
-| 3 | Hướng dẫn đổi trả hàng và hoàn tiền dành cho Người mua trên Sendo | <https://ginee.com/vn/insights/doi-tra-hang-sendo/> | 2026-09-20 / 2021.11 | ~3100 | audience: buyer, category: return-refund, language: vi |
-| 4 | Chính sách hủy đơn hàng trả hàng và hoàn tiền của khách hàng trên TikTok Shop | <https://seller-vn.tiktok.com/university/essay?knowledge_id=6837773789234946> | 2026-09-20 / 2026.1 | ~17340 | audience: seller, category: seller-returns, language: vi |
-| 5 | Quy trình mới Chỉ hoàn tiền đối với đơn hàng hoàn trả về kho Lazada | <https://sellercenter.lazada.vn/helpcenter/s/faq/knowledge> | 2026-09-20 / 2024-12-05 | ~1900 | audience: seller, category: seller-returns, language: vi |
+| 1 | Chính sách trả hàng và hoàn tiền Shopee | <https://help.shopee.vn/portal/4/article/77251> | 2026-09-20 / 2026-03-11 | ~19,972 | audience: both, category: return-refund, language: vi |
+| 2 | Chính sách hủy đơn hàng và hoàn tiền trên TikTok Shop | <https://seller-vn.tiktok.com/university/essay?knowledge_id=6837773789234946> | 2026-09-20 / 2026.1 | ~12,853 | audience: seller, category: seller-returns, language: vi |
+| 3 | Hướng dẫn đổi trả hàng và hoàn tiền dành cho Người mua trên Sendo | <https://ginee.com/vn/insights/doi-tra-hang-sendo/> | 2026-09-20 / 2021.11 | ~8,261 | audience: buyer, category: return-refund, language: vi |
+| 4 | Chính sách đổi trả tại Tiki trước ngày 15-04-2024 | <https://hotro.tiki.vn/knowledge-base/post/805> | 2026-09-20 / 2024-04-15 | ~2,653 | audience: buyer, category: return-refund, language: vi |
+| 5 | Quy trình mới Chỉ hoàn tiền đối với đơn hàng hoàn trả về kho Lazada | <https://sellercenter.lazada.vn/helpcenter/s/faq/knowledge> | 2026-09-20 / 2024-12-05 | ~2,190 | audience: seller, category: seller-returns, language: vi |
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
 
@@ -174,11 +174,11 @@ class HeadingChunker:
 
 | # | Câu hỏi | Chiến lược tốt nhất cho câu này | Kết quả Top-3 của nhóm | Điểm cao nhất | Ghi chú & Phân tích lỗi |
 | --- | --------- | ------------------------------- | ---------------------- | :-----------: | ----------------------- |
-| 1 | Thời hạn người mua Shopee gửi yêu cầu trả hàng | **SentenceChunker** (Việt) & **HeadingChunker** (Vũ) | **Top-1 Đúng** (`shopee-chinh-sach-tra-hang-hoan-tien`) | **2 / 2** | Việt và Vũ đều đưa tài liệu Shopee lên Top-1. Duẩn đưa về Top-2 (1/2đ) do Tiki chiếm Top-1. |
-| 2 | Thời hạn người bán Shopee phản hồi | **SentenceChunker** (Việt) | **Top-1 Đúng** (`shopee-chinh-sach-tra-hang-hoan-tien`) | **2 / 2** | Việt trúng Top-1 Shopee (2đ). Duẩn và Vũ bị TikTok Shop chiếm các vị trí đầu (0đ do thiếu doc Shopee). |
-| 3 | Sendo hoàn tiền qua đâu, bao lâu | **SentenceChunker** (Việt) | **Có liên quan trong Top-3** (Sendo / sàn TMĐT) | **1 / 2** | Câu không dùng filter nên MockEmbedder có xu hướng ưu tiên Shopee do độ dài văn bản áp đảo. Cả 3 đều gặp khó khăn ở Top-1. |
-| 4 | Tiki đổi trả điện thoại bị lỗi | **RecursiveChunker** (Duẩn) | **Top-2 Trúng GOLD** (`tiki-return-policy`) | **2 / 2** | Duẩn trích xuất trọn vẹn đoạn bảng ngành hàng điện gia dụng/điện tử của Tiki chứa Gold Answer (2đ). Việt đạt Top-3 (1đ). |
-| 5 | Phí vận chuyển hoàn trả Shopee người bán chịu không | **SentenceChunker** (Việt) & **RecursiveChunker** (Duẩn) | **Top-1 / Top-3 Trúng GOLD** (`shopee-chinh-sach-tra-hang-hoan-tien`) | **2 / 2** | Việt đạt Top-1 (2đ). Duẩn đạt Top-3 trúng đoạn GOLD quy định người bán chịu/không chịu chi phí (2đ). |
+| 1 | Thời hạn người mua Shopee gửi yêu cầu trả hàng | **SentenceChunker** (Việt) & **HeadingChunker** (Vũ) | **Top-1 / Top-3 Đúng Shopee** (`shopee-chinh-sach-tra-hang-hoan-tien`) | **2 / 2** | Vũ đưa tài liệu Shopee lên Top-1. Việt có 3/3 rank trong Top-3 là Shopee (1đ). Duẩn đưa về Top-2 (1đ) do Tiki chiếm Top-1. |
+| 2 | Thời hạn người bán Shopee phản hồi | **SentenceChunker** (Việt) | **Top-1 Trúng GOLD** (`shopee-chinh-sach-tra-hang-hoan-tien`) | **2 / 2** | Việt trúng Top-1 Shopee chứa đúng mốc thời gian "02 ngày" (2đ). Duẩn và Vũ bị TikTok Shop chiếm các vị trí đầu (0đ do trượt doc Shopee). |
+| 3 | Sendo hoàn tiền qua đâu, bao lâu | Cả 3 đều gặp khó khăn (Nút thắt MD5) | **Trượt Top-3** (Bị Shopee chiếm ưu thế) | **0 / 2** | Câu không dùng filter nên `MockEmbedder` băm MD5 ưu tiên Shopee do số lượng chunk Shopee áp đảo. Cả 3 thành viên đều trượt Top-3 (0đ). |
+| 4 | Tiki đổi trả điện thoại bị lỗi | **RecursiveChunker** (Duẩn) | **Top-2 Trúng GOLD** (`tiki-return-policy`) | **2 / 2** | Duẩn trích xuất trọn vẹn đoạn bảng ngành hàng điện tử của Tiki chứa Gold Answer (2đ). Việt và Vũ bị Shopee/TikTok chiếm Top-3 (0đ). |
+| 5 | Phí vận chuyển hoàn trả Shopee người bán chịu không | **SentenceChunker** (Việt) & **RecursiveChunker** (Duẩn) | **Top-1 / Top-3 Trúng GOLD** (`shopee-chinh-sach-tra-hang-hoan-tien`) | **2 / 2** | Cả hai cùng đạt điểm tối đa (2đ): Việt đạt Top-1 đúng câu trả lời Gold; Duẩn nhờ filter `seller` đưa tài liệu Shopee vào Top-3 trúng đoạn quy định chi phí. |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
 > **Rất hữu ích, mang tính quyết định! Bằng chứng thực nghiệm A/B Testing từ kết quả của Duẩn:**
