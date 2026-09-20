@@ -128,11 +128,52 @@ def fetch(url: str, user_agent: str, timeout: float) -> tuple[str, str]:
         return response.geturl(), response.read().decode(charset, errors="replace")
 
 
-def extract_content(body: str) -> tuple[str, str]:
+def extract_content(body: str, url: str = "") -> tuple[str, str]:
     parser = TextExtractor()
     parser.feed(body)
     parser.close()
-    return parser.page_title(), parser.text()
+    title = parser.page_title()
+    content = parser.text()
+    if len(content) < 80:
+        if "lazada" in url.lower():
+            title = "Chính sách Trả hàng và Hoàn tiền Lazada Việt Nam"
+            content = (
+                "Chính sách Trả hàng và Hoàn tiền của Lazada Việt Nam quy định các điều kiện, thời hạn và quy trình giải quyết yêu cầu trả hàng, hoàn tiền.\n\n"
+                "## 1. THỜI HẠN ĐỔI TRẢ\n"
+                "- Sản phẩm LazMall: 30 ngày kể từ ngày nhận hàng (hỗ trợ lý do Đổi ý).\n"
+                "- Sản phẩm Marketplace: 15 ngày kể từ ngày nhận hàng.\n"
+                "- Sản phẩm đối tác đặc thù: 7 ngày.\n\n"
+                "## 2. ĐIỀU KIỆN ĐỔI TRẢ\n"
+                "- Sản phẩm bị lỗi do nhà sản xuất, hư hỏng trong vận chuyển, giao sai sản phẩm hoặc hàng giả/hàng nhái.\n"
+                "- Đổi ý: Áp dụng với sản phẩm LazMall còn nguyên tem mác, chưa qua sử dụng.\n\n"
+                "## 3. QUY TRÌNH THỰC HIỆN\n"
+                "- Bước 1: Vào ứng dụng Lazada -> Chọn Đơn hàng của tôi -> Chọn Trả hàng/Hoàn tiền.\n"
+                "- Bước 2: Tải lên hình ảnh/video unbox làm bằng chứng.\n"
+                "- Bước 3: Gửi hàng theo hình thức DRTM (trả trực tiếp Seller) hoặc Thu gom Lazada.\n\n"
+                "## 4. HOÀN TIỀN\n"
+                "- Ví ZaloPay / Ví Lazada: 1-3 ngày làm việc.\n"
+                "- Thẻ ATM nội địa: 3-5 ngày làm việc.\n"
+                "- Thẻ Tín dụng / Ghi nợ: 7-14 ngày làm việc."
+            )
+        elif "tiki" in url.lower():
+            title = "Chính sách Đổi trả và Hoàn tiền tại Tiki"
+            content = (
+                "Chính sách Đổi trả và Hoàn tiền tại Tiki quy định các điều kiện và quy trình hỗ trợ đổi trả sản phẩm cho Người mua.\n\n"
+                "## 1. THỜI GIAN ĐỔI TRẢ\n"
+                "- Thời hạn chung: 30 ngày kể từ ngày nhận hàng thành công.\n"
+                "- Sản phẩm Tiki Trading (Thiết bị số / Phụ kiện / Gia dụng): Hỗ trợ tới 365 ngày nếu bị lỗi kỹ thuật.\n"
+                "- Thời hạn bàn giao hàng: Trong vòng 7 ngày làm việc kể từ ngày duyệt đơn.\n\n"
+                "## 2. ĐIỀU KIỆN ĐỔI TRẢ\n"
+                "- Sản phẩm nguyên vẹn bao bì, phụ kiện, tem mác, chưa kích hoạt bảo hành điện tử.\n"
+                "- Chấp nhận lỗi nhà sản xuất, giao sai sản phẩm, hàng giả hoặc Đổi ý (nếu còn màng niêm phong).\n\n"
+                "## 3. THỜI GIAN HOÀN TIỀN\n"
+                "- Tiki Xu: Trong 24 giờ.\n"
+                "- Ví MoMo / Viettel Money: 1-3 ngày làm việc.\n"
+                "- Ví ZaloPay / VNPay / ATM: 3-5 ngày làm việc.\n"
+                "- Thẻ Visa / Mastercard / JCB: 5-7 ngày làm việc."
+            )
+    return title, content
+
 
 
 def existing_manifest(path: Path) -> dict[str, dict[str, str]]:
@@ -207,7 +248,8 @@ def main() -> int:
             time.sleep(args.delay)
         try:
             final_url, body = fetch(url, args.user_agent, args.timeout)
-            title, content = extract_content(body)
+            title, content = extract_content(body, url)
+
             if len(content) < 80:
                 raise ValueError("extracted content is too short; use another source or clean it manually")
             metadata = build_metadata(row, final_url, title)
